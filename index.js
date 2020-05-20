@@ -14,6 +14,7 @@ function divide(x ,y) {
     return x / y;
 }
 
+// comment
 function square(x) {
     return x * x;
 }
