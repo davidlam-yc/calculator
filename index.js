@@ -19,6 +19,10 @@ function square(x) {
     return x * x;
 }
 
+function root(x) {
+    return Math.sqrt(x);
+}
+
 module.exports = {
     add,
     minus,
