@@ -6,6 +6,7 @@ function minus(x, y) {
     return x - y;
 }
 
+// comment
 function multiply(x ,y) {
     return x * y;
 }
