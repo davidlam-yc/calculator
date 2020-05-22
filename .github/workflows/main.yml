@@ -31,3 +31,25 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
+    
+    - name: Parse Jira Keys from Commit
+      id: jira_keys
+      if: always()
+      uses: HighwayThree/jira-extract-issue-keys@master
+      with:
+        is-pull-request: ${{ github.event_name == 'pull_request' }}
+        parse-all-commits: ${{ github.event_name == 'push' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    
+    - name: Log
+      run: echo "jira-keys - ${{ steps.jira_keys.outputs.jira-keys }}"
+    - name: Push Build info to jira
+      id: push_deployment_info_to_jira
+      uses: HighwayThree/jira-upload-build-info@master
+      with:
+        client-id: '${{ secrets.CLIENT_ID }}'
+        client-secret: '${{ secrets.CLIENT_SECRET }}'
+        cloud-instance-base-url: '${{ secrets.CLOUD_INSTANCE_BASE_URL }}'
+        issue-keys: "${{ steps.jira_keys.outputs.jira-keys }}"
+        build-state: "successful"
